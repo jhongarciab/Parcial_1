@@ -58,3 +58,34 @@ class Matriz:
           respuesta[i][j] = self.valores[i][j] - otra.valores[i][j]
       respuesta = Matriz(respuesta)
       return respuesta
+
+#Ahora defino mul y rmul para poder hacer las operaciones entre matrices al momento de G-J
+  def __mul__(self, otra):
+    if self.shape[0] != self.shape[1]:
+      print("Las matrices no pueden multiplicarse")
+      
+    resultado = [[0]*otra.shape[0] for _ in range(self.shape[1])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
+    for i in range(self.shape[0]):
+      for j in range(otra.shape[1]):
+        for k in range(self.shape[1]):
+          resultado[i][j] += self.valores[i][k]*otra.valores[k][j]
+      return Matriz(resultado)
+    resultado = [[0]*otra.shape[0] for _ in range(self.shape[1])]
+    for i in range(self.shape[0]):
+      for j in range(self.shape[1]):
+        resultado[i][j] = self.valores[i][j]*otra
+
+  def __rmul__(self, otra):
+    if self.shape[0] != self.shape[1]:
+      print("Las matrices no pueden multiplicarse")
+    resultado = [[0]*otra.shape[0] for _ in range(self.shape[1])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
+    for i in range(self.shape[0]):
+      for j in range(otra.shape[1]):
+        for k in range(self.shape[1]):
+          resultado[i][j] += self.valores[i][k]*otra.valores[k][j]
+      return Matriz(resultado)
+    resultado = [[0]*otra.shape[0] for _ in range(self.shape[1])]
+    for i in range(self.shape[0]):
+      for j in range(self.shape[1]):
+        resultado[i][j] = self.valores[i][j]*otra
+    
