@@ -151,5 +151,21 @@ class Matriz:
             x[i] = self.valores[i][m-1] / self.valores[i][i]
     return f"La solución del sistema es: {x}"
 
-m = Matriz([1, 2, 3, 4, 5, 6, 2, 1, 1], 3, 3)
-print(m)
+#Defino el método para la transpuesta.
+  def transpuesta(self):
+    resultado = [[0]*self.shape[0] for _ in range(self.shape[1])] #Se define la matriz transpuesta
+    for i in range(self.shape[0]):
+      for j in range(self.shape[1]):
+        resultado[j][i] = self.valores[i][j] #Se intercambian las filas y columnas
+    return Matriz(resultado)
+
+m1 = Matriz([1,2,3,4], 2, 2)
+print(m1)
+
+m2 = Matriz([1,0,0,1], 2, 2)
+print(m2)
+
+m3 = m1 + m2
+print(m3)
+
+
