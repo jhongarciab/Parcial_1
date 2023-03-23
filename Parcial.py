@@ -26,42 +26,34 @@ class Matriz:
     return respuesta
 
   def __add__(self, otra):
-    if self.shape[0] == 1:
-      lista = []
-      for i in range(self.shape[1]):
-        lista.append(self.valores[0][i] + otra.valores[0][i])
-      respuesta = Matriz([lista])
-      return respuesta
-    elif self.shape != otra.shape:
+    if self.shape != otra.shape:
       print("Tamaños distintos. No es posible la suma")
-    else: 
-      respuesta = self.valores
+      return None
+    else:
+      resultado = []
       for i in range(self.shape[0]):
+        fila = []
         for j in range(self.shape[1]):
-          respuesta[i][j] = self.valores[i][j] + otra.valores[i][j]
-      respuesta = Matriz(respuesta)
-      return respuesta
+          fila.append(self.valores[i][j] + otra.valores[i][j])
+        resultado.append(fila)
+      return Matriz(resultado)
 
   def __sub__(self, otra):
-    if self.shape[0] == 1:
-      lista = []
-      for i in range(self.shape[1]):
-        lista.append(self.valores[0][i] - otra.valores[0][i])
-      respuesta = Matriz([lista])
-      return respuesta
-    elif self.shape != otra.shape:
-      print("Tamaños distintos. No es posible la resta")
-    else: 
-      respuesta = self.valores
+    if self.shape != otra.shape:
+      print("Tamaños distintos. No es posible la suma")
+      return None
+    else:
+      resultado = []
       for i in range(self.shape[0]):
+        fila = []
         for j in range(self.shape[1]):
-          respuesta[i][j] = self.valores[i][j] - otra.valores[i][j]
-      respuesta = Matriz(respuesta)
-      return respuesta
+          fila.append(self.valores[i][j] - otra.valores[i][j])
+        resultado.append(fila)
+      return Matriz(resultado)
 
 #Ahora defino mul y rmul para poder hacer las operaciones entre matrices al momento de G-J
   def __mul__(self, otra):
-    if self.shape[0] != otra.shape[1]:
+    if self.shape[1] != otra.shape[0]:
         print("Las matrices no pueden multiplicarse")
         return None
     resultado = [[0]*otra.shape[1] for _ in range(self.shape[0])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
@@ -72,7 +64,7 @@ class Matriz:
     return Matriz(resultado)
 
   def __rmul__(self, otra):
-    if self.shape[0] != otra.shape[1]:
+    if self.shape[1] != otra.shape[0]:
         print("Las matrices no pueden multiplicarse")
         return None
     resultado = [[0]*otra.shape[1] for _ in range(self.shape[0])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
@@ -81,15 +73,31 @@ class Matriz:
             for k in range(self.shape[1]):
                 resultado[i][j] += self.valores[i][k]*otra.valores[k][j]
     return Matriz(resultado)
-  
+
+#Defino el intercambio de filas y luego para encontrar el pivote  
   def intercambio(self, fila1, fila2):
      self.valores[fila1], self.valores[fila2] = self.valores[fila2], self.valores[fila1]
 
-#Primero aplicar Gauss, luego Jordan:
-  def gauss(matriz):
-    for i in range(len(matriz)):
-      pivote = matriz[i][i]
-      if pivote == 0:
-        continue
-      for j in range(i+1) 
-     
+  def pivote(self, fila):
+    respuesta = self.valores[fila][fila]
+    return respuesta
+
+#Primero aplicar Gauss, para la matriz escalonada, luego Jordan:
+  def gauss(self):
+    for i in range(self.shape[0]):
+      pivote = self.pivote(i)
+      for j in range(i + 1, self.shape[0]):
+        multiplicador = self.valores[j][i] / pivote
+        for k in range(i, self.shape[1]):
+          self.valores[j][k] -= multiplicador * self.valores[i][k]
+
+V1 = Matriz([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print("La matriz 1 es: ")
+print(V1)
+V2 = Matriz([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+print("La matriz 2 es: ")
+print(V2)
+print("La suma es: ")
+print(V1+V2)
+print("La resta es: ")
+print(V1-V2)
