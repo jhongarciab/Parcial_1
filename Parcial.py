@@ -153,43 +153,24 @@ class Matriz:
     for i in range(self.shape[0]):
       for j in range(self.shape[1]):
         resultado[j][i] = self.valores[i][j]
-    return Matriz(resultado)
- 
-A = Matriz([2, -1, 1, -1, 3, -1, 1, -1, 2], 3, 3)
+    return Matriz([elem for fila in resultado for elem in fila], self.shape[0], self.shape[1])
+
+#Defino el método para la simetría.
+  def simetrica(self):
+    transpuesta = self.transpuesta()
+    if self.shape != transpuesta.shape:
+        return False
+    for i in range(self.shape[0]):
+        for j in range(self.shape[1]):
+            if self.valores[i][j] != transpuesta.valores[i][j]:
+                return False
+    return True
+
+    
+A = Matriz([1, 2, 3, 2, 4, 5, 3, 5, 6], 3, 3)
 print("Matriz original:")
 print(A)
-
-B = Matriz([1, 2, 3, 4, 5, 6, 7, 8, 9], 3, 3)
-print("Matriz B:")
-print(B)
-
-print("Suma de matrices:")
-print(A + B)
-
-print("Resta de matrices:")
-print(A - B)
-
-print("Multiplicación por escalar:")
-print(A.escalar(2))
-
-print("Multiplicación de matrices:")
-print(A * B)
-
-print("Multiplicación de matrices (otra forma):")
-print(B * A)
-
-print("Intercambio de filas:")
-A.intercambio(0, 1)
-print(A)
-
-print("Gauss-Jordan:")  
-A.gauss_jordan()
-print(A)
-
-print("Tipo de solución:")
-print(A.tipo_sol())
-
-print("Vector solución:")
-print(A.vector_sol())
-
-
+print("Matriz transpuesta:")
+print(A.transpuesta())
+print("Matriz simétrica:")
+print(A.simetrica())
