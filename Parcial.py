@@ -94,19 +94,19 @@ class Matriz:
     respuesta = self.valores[fila][fila]
     return respuesta
 
-#Primero aplicar Gauss, para la matriz escalonada, luego Jordan:
-  def gauss(self):
+#Gauss_Jordan unificada:
+  def gauss_jordan(self):
     for i in range(self.shape[0]):
       pivote = self.pivote(i)
       for j in range(i + 1, self.shape[0]):
         multiplicador = self.valores[j][i] / pivote
         for k in range(i, self.shape[1]):
           self.valores[j][k] -= multiplicador * self.valores[i][k]
-
-  def jordan(self):
+          
     for i in range(self.shape[0]-1, -1, -1):
       pivote = self.pivote(i)
       for j in range(i-1, -1, -1):
         multiplicador = self.valores[j][i] / pivote
         for k in range(i, self.shape[1]):
           self.valores[j][k] -= multiplicador * self.valores[i][k]
+
