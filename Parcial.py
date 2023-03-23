@@ -1,22 +1,20 @@
 #Defino clase matriz, con vector por si es solo una fila, suma y resta.
 class Matriz:
-  def __init__(self, valores):
-    self.valores = valores
-    n = len(valores)
-    m = len(valores[0])
+  def __init__(self, valores, n, m):
+    self.valores = [valores[i:i+m] for i in range(0, n*m, m)]
     self.shape = [n, m]
     self.is_valid = self.validar_matriz()
 
   def validar_matriz(self):
     indices_invalidos = []
     for i in range(self.shape[0]):
-      for j in range(self.shape[1]):
-        if not isinstance(self.valores[i][j], (int, float)):
-          indices_invalidos.append((i,j))
+        for j in range(self.shape[1]):
+            if type(self.valores[i][j]) not in [int, float]:
+                indices_invalidos.append((i,j))
     if len(indices_invalidos) == 0:
-      return [True, []]
+        return [True, []]
     else:
-      return [False, indices_invalidos]
+        return [False, indices_invalidos]
 
   def __str__(self):
     if self.shape[0] == 1:
@@ -152,3 +150,6 @@ class Matriz:
         if self.valores[i][i] != 0:
             x[i] = self.valores[i][m-1] / self.valores[i][i]
     return f"La solución del sistema es: {x}"
+
+m = Matriz([1, 2, 3, 4, 5, 6, 2, 1, 1], 3, 3)
+print(m)
