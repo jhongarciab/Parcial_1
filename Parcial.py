@@ -103,25 +103,10 @@ class Matriz:
         for k in range(i, self.shape[1]):
           self.valores[j][k] -= multiplicador * self.valores[i][k]
 
-V1 = Matriz([[2, 2, 3], [4, 5, 6], [7, 8, 9]])
-print("La matriz 1 es: ")
-print(V1)
-V2 = Matriz([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-print("La matriz 2 es: ")
-print(V2)
-print("La suma es: ")
-print(V1+V2)
-print("La resta es: ")
-print(V1-V2)
-print("La multiplicación es: ")
-print(V2*V1)
-print("La multiplicación por un escalar es: ")
-V3 = V1.escalar(2)
-print(V3)
-print("La matriz 1 después de aplicar Gauss es: ")
-V1.gauss()
-print(V1)
-print("La matriz 2 después de aplicar Gauss es: ")
-V2.gauss()
-print(V2)
-
+  def jordan(self):
+    for i in range(self.shape[0]-1, -1, -1):
+      pivote = self.pivote(i)
+      for j in range(i-1, -1, -1):
+        multiplicador = self.valores[j][i] / pivote
+        for k in range(i, self.shape[1]):
+          self.valores[j][k] -= multiplicador * self.valores[i][k]
