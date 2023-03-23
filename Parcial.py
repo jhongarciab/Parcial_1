@@ -110,3 +110,22 @@ class Matriz:
         for k in range(i, self.shape[1]):
           self.valores[j][k] -= multiplicador * self.valores[i][k]
 
+#Método para verificar si el sistema tiene una solución, infinitas o no tiene sol.   
+  def tipo_sol(self):  
+    num_variables = self.shape[1]-1
+    pivotes = []
+    for i in range(self.shape[0]):
+      fila_de_ceros = True
+      for j in range(num_variables):
+        if self.valores[i][j] != 0:
+          fila_de_ceros = False
+          break
+      if not fila_de_ceros:
+        pivotes.append(j)
+
+    if len(pivotes) == num_variables:
+      return "El sistema tiene solución única"
+    elif len(pivotes) < num_variables:
+      return "El sistema tiene infinitas soluciones"
+    elif len(pivotes) < num_variables and self.valores[i][-1] != 0:
+      return "El sistema no tiene solución"
