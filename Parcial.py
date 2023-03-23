@@ -5,6 +5,18 @@ class Matriz:
     n = len(valores)
     m = len(valores[0])
     self.shape = [n, m]
+    self.is_valid = self.validar_matriz()
+
+  def validar_matriz(self):
+    indices_invalidos = []
+    for i in range(self.shape[0]):
+      for j in range(self.shape[1]):
+        if not isinstance(self.valores[i][j], (int, float)):
+          indices_invalidos.append((i,j))
+    if len(indices_invalidos) == 0:
+      return [True, []]
+    else:
+      return [False, indices_invalidos]
 
   def __str__(self):
     if self.shape[0] == 1:
@@ -40,7 +52,7 @@ class Matriz:
 
   def __sub__(self, otra):
     if self.shape != otra.shape:
-      print("Tamaños distintos. No es posible la suma")
+      print("Tamaños distintos. No es posible la resta")
       return None
     else:
       resultado = []
@@ -129,3 +141,14 @@ class Matriz:
       return "El sistema tiene infinitas soluciones"
     elif len(pivotes) < num_variables and self.valores[i][-1] != 0:
       return "El sistema no tiene solución"
+    
+#Defino el vector resultado para el G-J.
+  def vector_sol(self):
+    self.gauss_jordan()
+    n = self.shape[0]
+    m = self.shape[1]
+    x = [0] * n  #Lista de longitud 0 inicializada con ceros para almacenar las soluciones de los sistemas
+    for i in range(n):
+        if self.valores[i][i] != 0:
+            x[i] = self.valores[i][m-1] / self.valores[i][i]
+    return f"La solución del sistema es: {x}"
