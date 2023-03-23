@@ -1,4 +1,4 @@
-<h1 align="center">Parcial 1</h1>
+<h1 align="center">Parcial 1 😥</h1> 
 
 **Programa de Física, Universidad del Quindío, Marzo, 2023.**
 
