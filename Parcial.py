@@ -51,6 +51,18 @@ class Matriz:
         resultado.append(fila)
       return Matriz(resultado)
 
+#Método para multiplicar por un escalar
+  def escalar(self, e):
+    if type(e) in [int, float]:
+      resultado = [[0]*self.shape[1] for _ in range(self.shape[0])]
+      for i in range(self.shape[0]):
+        for j in range(self.shape[1]):
+          resultado[i][j] = self.valores[i][j] * e
+      return Matriz(resultado)
+    else:
+      print("El argumento pasado no es un número")
+      return None
+  
 #Ahora defino mul y rmul para poder hacer las operaciones entre matrices al momento de G-J
   def __mul__(self, otra):
     if self.shape[1] != otra.shape[0]:
@@ -91,7 +103,7 @@ class Matriz:
         for k in range(i, self.shape[1]):
           self.valores[j][k] -= multiplicador * self.valores[i][k]
 
-V1 = Matriz([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+V1 = Matriz([[2, 2, 3], [4, 5, 6], [7, 8, 9]])
 print("La matriz 1 es: ")
 print(V1)
 V2 = Matriz([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
@@ -101,3 +113,15 @@ print("La suma es: ")
 print(V1+V2)
 print("La resta es: ")
 print(V1-V2)
+print("La multiplicación es: ")
+print(V2*V1)
+print("La multiplicación por un escalar es: ")
+V3 = V1.escalar(2)
+print(V3)
+print("La matriz 1 después de aplicar Gauss es: ")
+V1.gauss()
+print(V1)
+print("La matriz 2 después de aplicar Gauss es: ")
+V2.gauss()
+print(V2)
+
