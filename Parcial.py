@@ -38,7 +38,6 @@ class Matriz:
   def __add__(self, otra):
     if self.shape != otra.shape:
       print("Tamaños distintos. No es posible la suma")
-      return None
     
     resultado = []
     for i in range(self.shape[0]):
@@ -51,7 +50,6 @@ class Matriz:
   def __sub__(self, otra):
     if self.shape != otra.shape:
       print("Tamaños distintos. No es posible la resta")
-      return None
     else:
       resultado = []
       for i in range(self.shape[0]):
@@ -71,14 +69,12 @@ class Matriz:
       return Matriz([elem for fila in resultado for elem in fila], self.shape[0], self.shape[1])
     else:
       print("Lo ingresado no es un escalar")
-      return None
   
 #Ahora defino mul y rmul para poder hacer las operaciones entre matrices al momento de G-J
   def __mul__(self, otra):
-    if self.shape[1] != otra.shape[0] and otra.shape[1] != self.shape[0]:
+    if self.shape[1] != otra.shape[0]:
       print("Las matrices no pueden multiplicarse")
-      return None
-    resultado = [[0]*otra.shape[1] for _ in range(otra.shape[0])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
+    resultado = [[0]*otra.shape[1] for _ in range(self.shape[0])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
     for i in range(self.shape[0]):
       for j in range(otra.shape[1]):
         for k in range(self.shape[1]):
@@ -86,14 +82,13 @@ class Matriz:
     return Matriz([elem for fila in resultado for elem in fila], self.shape[0], otra.shape[1])
 
   def __rmul__(self, otra):
-    if self.shape[1] != otra.shape[0] and otra.shape[1] != self.shape[0]:
+    if self.shape[1] != otra.shape[0]:
       print("Las matrices no pueden multiplicarse")
-      return None
-    resultado = [[0]*otra.shape[1] for _ in range(otra.shape[0])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
-    for i in range(self.shape[0]):
-      for j in range(otra.shape[1]):
-        for k in range(self.shape[1]):
-          resultado[i][j] += self.valores[i][k]*otra.valores[k][j]
+    resultado = [[0]*self.shape[1] for _ in range(otra.shape[0])] #Matriz llena de 0 con las mismas dimensiones para llevar a cabo las mult.
+    for i in range(otra.shape[0]):
+      for j in range(self.shape[1]):
+        for k in range(otra.shape[1]):
+          resultado[i][j] += otra.valores[i][k]*self.valores[k][j]
     return Matriz([elem for fila in resultado for elem in fila], self.shape[0], otra.shape[1])
 
 #Defino el intercambio de filas y luego para encontrar el pivote  
@@ -101,8 +96,9 @@ class Matriz:
      self.valores[fila1], self.valores[fila2] = self.valores[fila2], self.valores[fila1]
 
   def pivote(self, fila):
-    respuesta = self.valores[fila][fila]
-    return respuesta
+    for j in range(self.shape[1]):
+      if abs(self.valores[fila][j] != 0):
+        return self.valores[fila][j]
 
 #Gauss_Jordan unificada:
   def gauss_jordan(self):
@@ -158,28 +154,42 @@ class Matriz:
       for j in range(self.shape[1]):
         resultado[j][i] = self.valores[i][j]
     return Matriz(resultado)
-
-  
-print("La matriz es: ")
-A = Matriz([1, 2, 3 ,4, 1, 3], 2, 3)
+ 
+A = Matriz([2, -1, 1, -1, 3, -1, 1, -1, 2], 3, 3)
+print("Matriz original:")
 print(A)
-print("La matriz es: ")
-B = Matriz([1, 2, 3 ,4, 1, 3], 3, 2)
+
+B = Matriz([1, 2, 3, 4, 5, 6, 7, 8, 9], 3, 3)
+print("Matriz B:")
 print(B)
 
-print("La matriz-suma es: ")
-c = A-B
-print(c)
+print("Suma de matrices:")
+print(A + B)
 
-print("La matriz-suma es: ")
-d = A+B
-print(d)
+print("Resta de matrices:")
+print(A - B)
 
-print("La multiplicación por escalar es: ")
-f = A.escalar(2)
-print(f)
+print("Multiplicación por escalar:")
+print(A.escalar(2))
 
-print("La multiplicación entre matrices es: ")
-j = B * A
-print(j)
+print("Multiplicación de matrices:")
+print(A * B)
+
+print("Multiplicación de matrices (otra forma):")
+print(B * A)
+
+print("Intercambio de filas:")
+A.intercambio(0, 1)
+print(A)
+
+print("Gauss-Jordan:")  
+A.gauss_jordan()
+print(A)
+
+print("Tipo de solución:")
+print(A.tipo_sol())
+
+print("Vector solución:")
+print(A.vector_sol())
+
 
