@@ -159,18 +159,139 @@ class Matriz:
   def simetrica(self):
     transpuesta = self.transpuesta()
     if self.shape != transpuesta.shape:
-        return False
+        print("La matriz no es simétrica")
+        return
     for i in range(self.shape[0]):
         for j in range(self.shape[1]):
             if self.valores[i][j] != transpuesta.valores[i][j]:
-                return False
-    return True
+                print("La matriz no es simétrica")
+                return
+    print("La matriz es simétrica")
 
-    
-A = Matriz([1, 2, 3, 2, 4, 5, 3, 5, 6], 3, 3)
-print("Matriz original:")
-print(A)
-print("Matriz transpuesta:")
-print(A.transpuesta())
-print("Matriz simétrica:")
-print(A.simetrica())
+while True:
+    print("---- Menú ----")
+    print("1. Sumar/Restar matrices")
+    print("2. Multiplicación entre matrices o por escalar")
+    print("3. Solución de sistemas mediante Gauss-Jordan")
+    print("4. Transpuesta de una matriz")
+    print("5. Simetría de una matriz")
+    print("6. Salir")
+
+    seleccion = input("Seleccione una opción: ")
+
+    if seleccion == "1":
+        print("---- Suma/Resta de matrices ----")
+        print("Ingrese la primera matriz")
+        print("Ingrese el número de filas y columnas de la primera matriz")
+        num_filas1 = int(input("Filas: "))
+        num_columnas1 = int(input("Columnas: "))
+        print("Ingrese los valores de la primera matriz separados por comas")
+        valores1 = [int(x) for x in input().split(',')]
+        matriz1 = Matriz(valores1, num_filas1, num_columnas1)
+        print("Ingrese la segunda matriz")
+        print("Ingrese el número de filas y columnas de la segunda matriz")
+        num_filas2 = int(input("Filas: "))
+        num_columnas2 = int(input("Columnas: "))
+        print("Ingrese los valores de la segunda matriz separados por comas")
+        valores2 = [int(x) for x in input().split(',')]
+        matriz2 = Matriz(valores2, num_filas2, num_columnas2)
+        print("La matriz 1 es: ")
+        print(matriz1)
+        print("La matriz 2 es: ")
+        print(matriz2)
+        print("¿Qué desea hacer?")
+        print("1. Sumar")
+        print("2. Restar")
+        seleccion = input("Seleccione una opción: ")
+        if seleccion == "1":
+            print("La suma de las matrices es: ")
+            print(matriz1 + matriz2)
+        elif seleccion == "2":
+            print("La resta de las matrices es: ")
+            print(matriz1 - matriz2)
+        else:
+            print("Opción inválida, intente de nuevo.")
+
+    elif seleccion == "2":
+        print("---- Multiplicación de matrices ----")
+        print("Ingrese el número de filas y columnas de la primera matriz")
+        num_filas1 = int(input("Filas: "))
+        num_columnas1 = int(input("Columnas: "))
+        print("Ingrese los valores de la primera matriz separados por comas")
+        valores1 = [int(x) for x in input().split(',')]
+        matriz1 = Matriz(valores1, num_filas1, num_columnas1)
+        print("Ingrese la segunda matriz")
+        print("Ingrese el número de filas y columnas de la segunda matriz")
+        num_filas2 = int(input("Filas: "))
+        num_columnas2 = int(input("Columnas: "))
+        print("Ingrese los valores de la segunda matriz separados por comas")
+        valores2 = [int(x) for x in input().split(',')]
+        matriz2 = Matriz(valores2, num_filas2, num_columnas2)
+        print("La matriz 1 es: ")
+        print(matriz1)
+        print("La matriz 2 es: ")
+        print(matriz2)
+        print("¿Qué desea hacer?")
+        print("1. Multiplicar")
+        print("2. Multiplicar por escalar")
+        seleccion = input("Seleccione una opción: ")
+        if seleccion == "1":
+            print(matriz1 * matriz2)
+        elif seleccion == "2":
+            e = int(input("Ingrese el escalar: "))
+            print("¿Qué matriz desea multiplicar por el escalar?")
+            print("1. Matriz 1")
+            print("2. Matriz 2")
+            seleccion = input("Seleccione una opción: ")
+            if seleccion == "1":
+                print(matriz1.escalar(e))
+            elif seleccion == "2":
+                print(matriz2.escalar(e))
+        else:
+            print("Opción inválida, intente de nuevo.")
+
+    elif seleccion == "3":
+        print("---- Gauss-Jordan de una matriz ----")
+        print("Ingrese el número de filas y columnas de la matriz")
+        num_filas = int(input("Filas: "))
+        num_columnas = int(input("Columnas: "))
+        print("Ingrese los valores de la matriz separados por comas")
+        valores = [int(x) for x in input().split(',')]
+        matriz = Matriz(valores, num_filas, num_columnas)
+        print("La matriz es: ") 
+        print(matriz)
+        print(matriz.gauss_jordan())
+        print(matriz.vector_sol())
+        print(matriz.tipo_sol())
+
+    elif seleccion == "4":
+        print("---- Transpuesta de una matriz ----")
+        print("Ingrese el número de filas y columnas de la matriz")
+        num_filas = int(input("Filas: "))
+        num_columnas = int(input("Columnas: "))
+        print("Ingrese los valores de la matriz separados por comas")
+        valores = [int(x) for x in input().split(',')]
+        matriz = Matriz(valores, num_filas, num_columnas)
+        print("La matriz es: ") 
+        print(matriz)
+        print("La transpuesta de la matriz es: ")
+        print(matriz.transpuesta())
+
+    elif seleccion == "5":
+        print("---- Simetría de una matriz ----")
+        print("Ingrese el número de filas y columnas de la matriz")
+        num_filas = int(input("Filas: "))
+        num_columnas = int(input("Columnas: "))
+        print("Ingrese los valores de la matriz separados por comas")
+        valores = [int(x) for x in input().split(',')]
+        matriz = Matriz(valores, num_filas, num_columnas)
+        print("La matriz es: ")
+        print(matriz)
+        S = matriz.simetrica()
+        print(S)
+        
+    elif seleccion == "6":
+        print("Saliendo del programa...")
+        break
+    else:
+        print("Opción inválida, intente de nuevo.")

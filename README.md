@@ -42,4 +42,5 @@ No se hizo pruebas con la transpuesta, me pasó por alto, y produce un error de 
 
 El siguiente paso en las instrucciones del parcial es definir un producto entre matrices, vectores y escalares usando __mul__ y __rmul__, esto ya estaba definido a medias, por lo que primero intenté definir todas las clases de la matriz al principio del código (y por ello luego el problema de las listas). Por lo que ahora se implementará la función para determinar si la matriz es simétrica.
 
-Teniendo todo esto, lo último que se implementará son los inputs para que la consola pueda escoger lo que se quiera hacer.
+Teniendo todo esto, lo último que se implementará son los inputs para que la consola pueda escoger lo que se quiera hacer. Ví en internet una forma de hacer un menú con condicionales por lo que haré pruebas sobre ello para ver si es posible implementarlo sin errores.
+Un primer error era que los valore se sumaban como cadenas (1+2=12), por lo que fue necesario convertir los valores en una lista de enteros para luego crear la matriz con la misma. Usando esa misma definición para crear las matrices se usó en todo y haciendo pruebas funcionó de buena manera. Como anotación, el Gauss-Jordan al funcionar con pivotes solo sirve para matrices cuadradas.
