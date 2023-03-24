@@ -97,7 +97,7 @@ class Matriz:
 
   def pivote(self, fila):
     for j in range(self.shape[1]):
-      if abs(self.valores[fila][j] != 0):
+      if abs(self.valores[fila][j]) > 0:
         return self.valores[fila][j]
 
 #Gauss_Jordan unificada:
