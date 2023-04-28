@@ -6,3 +6,6 @@
 
 ## Contenido
 
+1. [Parcial 1](https://github.com/jhongarciab/Parciales/tree/master/Parcial%201)
+
+2. [Parcial 2](https://github.com/jhongarciab/Parciales/tree/master/Parcial%202)
