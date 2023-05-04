@@ -1,29 +1,25 @@
+from conexion import ConexionBD
 import pandas as pd
 import os
 import psycopg2
 
-class Conexión:
+class Conexion:
     def __init__(self, archivos=None, nombre_tabla=None):
-        if archivos is None:
-            archivos_en_carpeta = os.listdir()
-            archivos_validos = [i for i in archivos_en_carpeta if os.path.isfile(i) and i.endswith('.csv')]
-            if archivos_validos:
-                print(f"No se ha especificado ningún archivo. Se usarán todos los archivos válidos en la carpeta actual.")
-                self.archivos = archivos_validos
-            else:
-                raise ValueError("No hay archivos válidos en la carpeta actual.")
+        self.archivos = archivos or self.obtener_archivos_validos()
+        self.nombre_tabla = nombre_tabla or input("Ingrese el nombre de la tabla: ")
+        self.conexion_bd = ConexionBD()
+    
+    def obtener_archivos_validos(self):
+        archivos_en_carpeta = os.listdir()
+        archivos_validos = [i for i in archivos_en_carpeta if os.path.isfile(i) and i.endswith('.csv')]
+        if archivos_validos:
+            print(f"No se ha especificado ningún archivo. Se usarán todos los archivos válidos en la carpeta actual.")
+            return archivos_validos
         else:
-            self.archivos = archivos
-
-        self.nombre_tabla = nombre_tabla
-        self.nombre_bd = 'Test_db'
-        self.usuario = 'postgres'
-        self.password = 'Xevaxtiam1'
-        self.host = '127.0.0.1'
-        self.puerto = '5432'
+            raise ValueError("No hay archivos válidos en la carpeta actual.")
 
     def crear_tabla(self):
-        with psycopg2.connect(host=self.host, port=self.puerto, user=self.usuario, password=self.password, dbname=self.nombre_bd) as conn:
+        with self.conexion_bd.conectar() as conn:
             with conn.cursor() as cursor:
                 for i in self.archivos:
                     df = pd.read_csv(i)
@@ -36,8 +32,3 @@ class Conexión:
 
                 conn.commit()
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
-
-mi_objeto = Conexión(
-    nombre_tabla="tabla11",
-)
-mi_objeto.crear_tabla()
