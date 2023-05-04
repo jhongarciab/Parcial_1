@@ -21,3 +21,7 @@
 10. Documente TODAS las funciones y métodos
 
 <h1 align="center">Bitácora</h1>
+
+Lo primero que se realizó fue la creación de la clase, en este caso 'Conexión', la cual recibe como parámetros el nombre de los archivos y la ruta de los mismos. En una primera instancia sólo se realizó para un archivo. La idea de este parcial es ir paso a paso y modificando el código al ritmo, por lo que luego del init de la clase, donde los siete argumentos, cinco eran fijos, ya que era la conexión local del servidor de PostgreSQL, los otros dos eran la ruta de los archivos, la cual debe ingresar la consola y el nombre que va a tener la tabla. 
+
+Después de esto se creó el método 'crear_tabla', el cual se encarga de crear la tabla en la base de datos, lo primero que hace es la conexión, usando el with para evitar la fuga y asegurar el buen cierre del cursos a la hora de ejecutar las secuencias. Luego de esto, en el init, como es requisito del parcial que si no se le ingresa un archivo, pueda leer los archivos que hay en la misma carpeta, se añadió un condicional que si no se le ingresa un archivo, lea todos los archivos de la carpeta y en el def de crear tabla, se añadió un for que recorra todos los archivos que se encuentren en la carpeta, los lea y cree la tabla de cada uno.
