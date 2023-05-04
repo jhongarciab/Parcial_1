@@ -1,49 +1,43 @@
-import psycopg2
-import csv
+import pandas as pd
 import os
+import psycopg2
 
+class Conexión:
+    def __init__(self, archivos=None, nombre_tabla=None):
+        if archivos is None:
+            archivos_en_carpeta = os.listdir()
+            archivos_validos = [i for i in archivos_en_carpeta if os.path.isfile(i) and i.endswith('.csv')]
+            if archivos_validos:
+                print(f"No se ha especificado ningún archivo. Se usarán todos los archivos válidos en la carpeta actual.")
+                self.archivos = archivos_validos
+            else:
+                raise ValueError("No hay archivos válidos en la carpeta actual.")
+        else:
+            self.archivos = archivos
 
-class LeerArchivos:
-    def __init__(self, *args, **kwargs):
-        self.ruta = kwargs.get('ruta', '.')
-        self.archivos = args or self.obtener_archivos()
+        self.nombre_tabla = nombre_tabla
+        self.nombre_bd = 'Test_db'
+        self.usuario = 'postgres'
+        self.password = 'Xevaxtiam1'
+        self.host = '127.0.0.1'
+        self.puerto = '5432'
 
-    def obtener_archivos(self):
-        return os.listdir(self.ruta)
+    def crear_tabla(self):
+        with psycopg2.connect(host=self.host, port=self.puerto, user=self.usuario, password=self.password, dbname=self.nombre_bd) as conn:
+            with conn.cursor() as cursor:
+                for i in self.archivos:
+                    df = pd.read_csv(i)
+                    columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df.columns]
+                    cursor.execute(f"CREATE TABLE {self.nombre_tabla} ({', '.join(columnas)})")
 
-    def procesar_archivos(self, procesar_linea):
-        for archivo in self.archivos:
-            with open(os.path.join(self.ruta, archivo), newline='', encoding='utf-8') as file:
-                reader = csv.reader(file)
-                next(reader)  # Ignorar la primera línea (encabezado)
-                for linea in reader:
-                    datos = procesar_linea(linea)
-                    self.insertar_en_bdd(datos)
+                    for _, row in df.iterrows():
+                        values = [f"'{i}'" for i in row.values.tolist()]
+                        cursor.execute(f"INSERT INTO {self.nombre_tabla} ({', '.join([f'{i.lower()}' for i in df.columns])}) VALUES ({', '.join(values)})")
 
-    def insertar_en_bdd(self, datos):
-        with psycopg2.connect(dbname='nombre_base_de_datos', user='usuario', password='contraseña', host='localhost') as conn:
-            with conn.cursor() as cur:
-                cur.execute('CREATE TABLE IF NOT EXISTS persona (id SERIAL PRIMARY KEY, nombre TEXT, apellido TEXT, mail TEXT)')
-                cur.execute('INSERT INTO persona (nombre, apellido, mail) VALUES (%s, %s, %s)', datos)
-            conn.commit()
+                conn.commit()
+        print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
 
-    @classmethod
-    def from_files(cls, *args, **kwargs):
-        instancia = cls(*args, **kwargs)
-        instancia.procesar_archivos(lambda linea: tuple(linea))  # Cada línea del archivo es una tupla con los valores a insertar
-        return instancia
-
-conexion = psycopg2.connect(
-    host='127.0.0.1',
-    user='postgres',
-    password='admin1',
-    database='Test_db'
+mi_objeto = Conexión(
+    nombre_tabla="tabla11",
 )
-
-cursor = conexion.cursor()
-
-cursor.execute('SELECT version()')
-
-resultado = cursor.fetchone()
-
-print(resultado)
+mi_objeto.crear_tabla()
