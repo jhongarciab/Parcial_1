@@ -1,3 +1,4 @@
+from Sentencias import SentenciasSQL
 from Cursor import CursorDelPool
 import pandas as pd
 import os
@@ -23,12 +24,12 @@ class Conexión:
                 nombre_tabla = self.nombre_tabla[i]
                 df = pd.read_csv(j)
                 columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df.columns]
-                cursor.execute(f"CREATE TABLE {nombre_tabla} ({', '.join(columnas)})")
+                cursor.execute(SentenciasSQL._TABLA.format(nombre_tabla, ', '.join(columnas)))
 
                 for _, row in df.iterrows():
                     values = [f"'{i}'" for i in row.values.tolist()]
-                    cursor.execute(f"INSERT INTO {nombre_tabla} ({', '.join([f'{i.lower()}' for i in df.columns])}) VALUES ({', '.join(values)})")
-
+                    cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df.columns]), ', '.join(values)))
+                              
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
     
     def combinar_tablas(self):
@@ -52,3 +53,8 @@ class Conexión:
                     cursor.execute(f"INSERT INTO {nombre_tabla} ({', '.join([f'{i.lower()}' for i in df_combinado.columns])}) VALUES ({', '.join(values)})")
 
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
+
+mi_objeto = Conexión(
+    nombre_tabla="tabla",
+)
+mi_objeto.crear_tabla()
