@@ -1,11 +1,11 @@
+from matplotlib import pyplot as plt
 from Cursor import CursorDelPool
 from Sentencias import SentenciasSQL
-import matplotlib.pyplot as plt
-import numpy as np
+import seaborn as sns
 import pandas as pd
 import os
 
-class Conexión:
+class Conexion:
     def __init__(self, archivos=None, nombre_tabla=None):
         if archivos is None:
             archivos_en_carpeta = os.listdir()
@@ -56,8 +56,19 @@ class Conexión:
 
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
 
-    def seleccionar_datos(self, nombre_tabla):
+    def crear_grafico_regresion(self, columna_x, columna_y):
         with CursorDelPool() as cursor:
-            cursor.execute(SentenciasSQL._SELECCIONAR.format(nombre_tabla))
-            data = cursor.fetchall()
-        return data
+            conn = cursor.connection
+            df = pd.read_sql(SentenciasSQL._SELECCIONAR.format(columna_x, columna_y, self.nombre_tabla), conn)
+
+        print(f'Los datos son los siguientes: {df}')
+
+        df[columna_x] = pd.to_numeric(df[columna_x], errors='coerce')
+        df[columna_y] = pd.to_numeric(df[columna_y], errors='coerce')
+
+        sns.regplot(x=columna_x, y=columna_y, data=df)
+        plt.title(f'Regresión lineal entre {columna_x} y {columna_y}')
+        plt.show()
+
+conexion = Conexion(nombre_tabla='tabla5')
+conexion.crear_grafico_regresion('veinte', 'quince')
