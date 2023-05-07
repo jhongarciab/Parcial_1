@@ -5,7 +5,7 @@ import seaborn as sns
 import pandas as pd
 import os
 
-class Conexion:
+class Conexión:
     def __init__(self, archivos=None, nombre_tabla=None):
         if archivos is None:
             archivos_en_carpeta = os.listdir()
@@ -70,5 +70,5 @@ class Conexion:
         plt.title(f'Regresión lineal entre {columna_x} y {columna_y}')
         plt.show()
 
-conexion = Conexion(nombre_tabla='tabla5')
+conexion = Conexión(nombre_tabla='tabla5')
 conexion.crear_grafico_regresion('veinte', 'quince')
