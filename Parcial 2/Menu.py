@@ -1,4 +1,4 @@
-from Main import Conexión
+from Main import Base
 from Main import FuncionMatematica
 import os
 
@@ -26,7 +26,7 @@ while True:
                 nombres_archivos = [archivos_validos[int(i)-1] for i in numeros_archivos.split(',')]
             
             nombre_tabla = input('Ingrese el nombre de la tabla: ').split(',')
-            conexion = Conexión(nombres_archivos, nombre_tabla)
+            conexion = Base(nombres_archivos, nombre_tabla)
 
             combinar = input('¿Desea combinar los archivos? (s/n): ')
             if combinar == 's':
@@ -40,13 +40,13 @@ while True:
     
     elif opcion == '2':
         print("Tablas disponibles:")
-        conexion = Conexión()
+        conexion = Base()
         tablas = conexion.obtener_nombres_tablas()
         for i, tabla in enumerate(tablas):
             print(f"{i+1}. {tabla}")
         opcion_tabla = input('Ingrese el número de la tabla que desea utilizar: ')
         nombre_tabla = tablas[int(opcion_tabla)-1]
-        conexion = Conexión(nombre_tabla=nombre_tabla)
+        conexion = Base(nombre_tabla=nombre_tabla)
         columna_x = input('Ingrese el nombre de la primera columa: ')
         columna_y = input('Ingrese el nombre de la segunda columna: ')
         conexion.crear_grafico_regresion(columna_x, columna_y)

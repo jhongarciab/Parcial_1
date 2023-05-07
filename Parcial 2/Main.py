@@ -7,10 +7,10 @@ import numpy as np
 import pandas as pd
 import os
 
-class Conexión:
+class Base:
     def __init__(self, archivos=None, nombre_tabla=None):
         """
-        Inicializa una instancia de la clase Conexión. Si no se especifican los archivos, se toman todos los archivos.
+        Inicializa una instancia de la clase Base. Si no se especifican los archivos, se toman todos los archivos.
         """
         if archivos is None:
             archivos_en_carpeta = os.listdir()
