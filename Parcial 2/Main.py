@@ -2,6 +2,8 @@ from matplotlib import pyplot as plt
 from Cursor import CursorDelPool
 from Sentencias import SentenciasSQL
 import seaborn as sns
+from scipy.optimize import fsolve
+import numpy as np
 import pandas as pd
 import os
 
@@ -74,3 +76,20 @@ class Conexión:
             cursor.execute(SentenciasSQL._LISTAR_TABLAS)
             tablas = [tabla[0] for tabla in cursor.fetchall()]
         return tablas
+    
+class FuncionMatematica():
+    
+    def encontrar_cortes_x(self, f):
+        roots = fsolve(f, [1])
+        return roots
+    
+    def graficar_funcion_y_cortes(self, f):
+        x = np.linspace(-10, 10, 1000)
+        y = f(x)
+        plt.plot(x, y)
+
+        roots = self.encontrar_cortes_x(f)
+        plt.scatter(roots, np.zeros_like(roots))
+
+        plt.grid()
+        plt.show()

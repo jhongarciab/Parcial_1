@@ -1,11 +1,13 @@
 from Main import Conexión
+from Main import FuncionMatematica
 import os
 
 while True:
-    print('----- Menú -----')
+    print('--------- Menú ---------')
     print('1. Ingresar archivos')
     print('2. Crear gráfico de regresión')
-    print('3. Salir')
+    print('3. Crear gráfico de función matemática')
+    print('4. Salir')
     opcion = input('Ingrese una opción: ')
 
     if opcion == '1':
@@ -50,6 +52,12 @@ while True:
         conexion.crear_grafico_regresion(columna_x, columna_y)
 
     elif opcion == '3':
+        fm = FuncionMatematica()
+        funcion_str = input('Ingrese la función que desea graficar: ')
+        funcion = eval('lambda x: ' + funcion_str)
+        fm.graficar_funcion_y_cortes(funcion)
+
+    elif opcion == '4':
         break
 
 print("¡Hasta luego!")
