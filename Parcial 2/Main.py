@@ -57,7 +57,7 @@ class Conexión:
 
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
 
-    def crear_grafico_regresion(self, columna_x, columna_y):
+    def crear_grafico_regresion(self, columna_x, columna_y, *args, **kwargs):
         with CursorDelPool() as cursor:
             conn = cursor.connection
             df = pd.read_sql(SentenciasSQL._SELECCIONAR.format(columna_x, columna_y, self.nombre_tabla), conn)
@@ -67,7 +67,7 @@ class Conexión:
         df[columna_x] = pd.to_numeric(df[columna_x], errors='coerce')
         df[columna_y] = pd.to_numeric(df[columna_y], errors='coerce')
 
-        sns.regplot(x=columna_x, y=columna_y, data=df)
+        sns.regplot(x=columna_x, y=columna_y, data=df, *args, **kwargs)
         plt.title(f'Regresión lineal entre {columna_x} y {columna_y}')
         plt.show()
 
@@ -78,7 +78,6 @@ class Conexión:
         return tablas
     
 class FuncionMatematica():
-    
     def encontrar_cortes_x(self, f):
         roots = fsolve(f, [1])
         return roots
