@@ -11,7 +11,6 @@ class Conexión:
             archivos_en_carpeta = os.listdir()
             archivos_validos = [i for i in archivos_en_carpeta if os.path.isfile(i) and i.endswith('.csv')]
             if archivos_validos:
-                print(f"No se ha especificado ningún archivo. Se usarán todos los archivos válidos en la carpeta actual.")
                 self.archivos = archivos_validos
             else:
                 raise ValueError("No hay archivos válidos en la carpeta actual.")
@@ -69,6 +68,3 @@ class Conexión:
         sns.regplot(x=columna_x, y=columna_y, data=df)
         plt.title(f'Regresión lineal entre {columna_x} y {columna_y}')
         plt.show()
-
-conexion = Conexión(nombre_tabla='tabla5')
-conexion.crear_grafico_regresion('veinte', 'quince')
