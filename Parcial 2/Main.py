@@ -9,6 +9,9 @@ import os
 
 class Conexión:
     def __init__(self, archivos=None, nombre_tabla=None):
+        """
+        Inicializa una instancia de la clase Conexión. Si no se especifican los archivos, se toman todos los archivos.
+        """
         if archivos is None:
             archivos_en_carpeta = os.listdir()
             archivos_validos = [i for i in archivos_en_carpeta if os.path.isfile(i) and i.endswith('.csv')]
@@ -22,6 +25,10 @@ class Conexión:
         self.nombre_tabla = nombre_tabla
 
     def crear_tabla(self):
+        """
+        Crea una tabla en la base de datos con el nombre especificado en la instancia de la clase Conexión
+        y los datos de los archivos CSV especificados en la instancia de la clase Conexión.
+        """
         with CursorDelPool() as cursor:
             for i, j in enumerate(self.archivos):
                 nombre_tabla = self.nombre_tabla[i]
@@ -36,6 +43,9 @@ class Conexión:
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
     
     def combinar_tablas(self):
+        """
+        Combina los datos de los archivos CSV especificados en la instancia de la clase Conexión en un solo DataFrame.
+        """
         dfs = []
         for archivo in self.archivos:
             df = pd.read_csv(archivo)
@@ -46,6 +56,10 @@ class Conexión:
         return df_combinado
 
     def crear_tabla_combinada(self, df_combinado):
+        """
+        Crea una nueva tabla en la base de datos y la inserta con los datos combinados
+        en el DataFrame df_combinado.
+        """
         with CursorDelPool() as cursor:
             nombre_tabla = self.nombre_tabla
             columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df_combinado.columns]
@@ -58,6 +72,9 @@ class Conexión:
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
 
     def crear_grafico_regresion(self, columna_x, columna_y, *args, **kwargs):
+        """
+        Crea un gráfico de regresión lineal usando seaborn. Los parámetros *args y **kwargs son pasados a la función.
+        """
         with CursorDelPool() as cursor:
             conn = cursor.connection
             df = pd.read_sql(SentenciasSQL._SELECCIONAR.format(columna_x, columna_y, self.nombre_tabla), conn)
@@ -72,12 +89,18 @@ class Conexión:
         plt.show()
 
     def obtener_nombres_tablas(self):
+        """
+        Retorna una lista con los nombres de las tablas en la base de datos.
+        """
         with CursorDelPool() as cursor:
             cursor.execute(SentenciasSQL._LISTAR_TABLAS)
             tablas = [tabla[0] for tabla in cursor.fetchall()]
         return tablas
     
 class FuncionMatematica():
+    """
+    Clase que permite encontrar los cortes de una función matemática y graficarla.
+    """
     def encontrar_cortes_x(self, f):
         roots = fsolve(f, [1])
         return roots
