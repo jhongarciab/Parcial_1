@@ -1,5 +1,7 @@
-from Sentencias import SentenciasSQL
 from Cursor import CursorDelPool
+from Sentencias import SentenciasSQL
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import os
 
@@ -41,20 +43,21 @@ class Conexión:
         df_combinado = pd.concat(dfs, axis=0, join='inner')
         df_combinado = df_combinado.drop_duplicates(subset=df_combinado.columns[:3])
         return df_combinado
-    
+
     def crear_tabla_combinada(self, df_combinado):
         with CursorDelPool() as cursor:
-                nombre_tabla = self.nombre_tabla
-                columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df_combinado.columns]
-                cursor.execute(f"CREATE TABLE {nombre_tabla} ({', '.join(columnas)})")
+            nombre_tabla = self.nombre_tabla
+            columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df_combinado.columns]
+            cursor.execute(SentenciasSQL._TABLA.format(nombre_tabla, ', '.join(columnas)))
 
-                for _, row in df_combinado.iterrows():
-                    values = [f"'{i}'" for i in row.values.tolist()]
-                    cursor.execute(f"INSERT INTO {nombre_tabla} ({', '.join([f'{i.lower()}' for i in df_combinado.columns])}) VALUES ({', '.join(values)})")
+            for _, row in df_combinado.iterrows():
+                values = [f"'{i}'" for i in row.values.tolist()]
+                cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df_combinado.columns]), ', '.join(values)))
 
         print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
 
-mi_objeto = Conexión(
-    nombre_tabla="tabla",
-)
-mi_objeto.crear_tabla()
+    def seleccionar_datos(self, nombre_tabla):
+        with CursorDelPool() as cursor:
+            cursor.execute(SentenciasSQL._SELECCIONAR.format(nombre_tabla))
+            data = cursor.fetchall()
+        return data
