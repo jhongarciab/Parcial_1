@@ -5,3 +5,4 @@ class SentenciasSQL:
     _ELIMINAR = 'DELETE FROM {} WHERE {} = %s'
     _TABLA = 'CREATE TABLE {} ({})'
     _CONSULTA = 'SELECT {} FROM {}'
+    _LISTAR_TABLAS = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"

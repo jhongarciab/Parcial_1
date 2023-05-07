@@ -21,7 +21,6 @@ class Conexion:
                                                       password = cls._PASSWORD,
                                                       port = cls._DB_PORT,
                                                       database = cls._DATABASE)
-                print(f'Creación del pool exitosa: {cls._pool}')
                 return cls._pool
             except Exception as e:
                 print(f'Ocurrió un error al obtener el pool {e}')
@@ -32,13 +31,11 @@ class Conexion:
     @classmethod
     def obtenerConexion(cls):
         conexion = cls.obtenerPool().getconn()
-        print(f'Conexión obtenida del pool: {conexion}')
         return conexion
 
     @classmethod
     def liberarConexion(cls, conexion):
         cls.obtenerPool().putconn(conexion)
-        print(f'Regresamos la conexión al pool: {conexion}')
 
     @classmethod
     def cerrarConexiones(cls):

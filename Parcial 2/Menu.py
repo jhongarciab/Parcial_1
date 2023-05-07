@@ -37,12 +37,18 @@ while True:
 
     
     elif opcion == '2':
-        nombre_tabla = input('Ingrese el nombre de la tabla: ')
+        print("Tablas disponibles:")
+        conexion = Conexión()
+        tablas = conexion.obtener_nombres_tablas()
+        for i, tabla in enumerate(tablas):
+            print(f"{i+1}. {tabla}")
+        opcion_tabla = input('Ingrese el número de la tabla que desea utilizar: ')
+        nombre_tabla = tablas[int(opcion_tabla)-1]
         conexion = Conexión(nombre_tabla=nombre_tabla)
         columna_x = input('Ingrese el nombre de la primera columa: ')
         columna_y = input('Ingrese el nombre de la segunda columna: ')
         conexion.crear_grafico_regresion(columna_x, columna_y)
-        
+
     elif opcion == '3':
         break
 

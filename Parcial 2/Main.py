@@ -68,3 +68,9 @@ class Conexión:
         sns.regplot(x=columna_x, y=columna_y, data=df)
         plt.title(f'Regresión lineal entre {columna_x} y {columna_y}')
         plt.show()
+
+    def obtener_nombres_tablas(self):
+        with CursorDelPool() as cursor:
+            cursor.execute(SentenciasSQL._LISTAR_TABLAS)
+            tablas = [tabla[0] for tabla in cursor.fetchall()]
+        return tablas
