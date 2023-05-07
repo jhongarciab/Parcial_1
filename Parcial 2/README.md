@@ -33,3 +33,5 @@ Después de la definición del método combinar_tablas, se encuentra el método 
 Luego, se encuentra el método crear_grafico_regresion, el cual crea un gráfico de regresión lineal utilizando la librería Seaborn. Para ello, se lee la información de la tabla utilizando el método pd.read_sql() y se realiza la regresión lineal utilizando sns.regplot(). Finalmente, se muestra el gráfico utilizando plt.show().
 
 Por último, se encuentra el método obtener_nombres_tablas, el cual obtiene una lista con los nombres de todas las tablas que se encuentran en la base de datos. Para ello, se utiliza el cursor para ejecutar la sentencia SQL correspondiente. Para luego crear el archivo 'Menú' donde están todas las funcionalidades del parcial.
+
+Después de esto, se creó la clase FunciónMatemática, clase que permite encontrar los cortes de una función matemática y graficarla.
