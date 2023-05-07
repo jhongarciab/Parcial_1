@@ -25,8 +25,8 @@ while True:
             else:
                 nombres_archivos = [archivos_validos[int(i)-1] for i in numeros_archivos.split(',')]
             
-            nombre_tabla = input('Ingrese el nombre de la tabla: ')
-            conexion = Conexión(nombres_archivos, nombre_tabla)
+            nombres_tabla = input('Ingrese los nombres de las tablas separados por coma: ').split(',')
+            conexion = Conexión(nombres_archivos, nombres_tabla)
 
             combinar = input('¿Desea combinar los archivos? (s/n): ')
             if combinar == 's':
@@ -37,7 +37,6 @@ while True:
         else:
             print("No hay archivos válidos en la carpeta actual.")
 
-    
     elif opcion == '2':
         print("Tablas disponibles:")
         conexion = Conexión()
@@ -47,7 +46,11 @@ while True:
         opcion_tabla = input('Ingrese el número de la tabla que desea utilizar: ')
         nombre_tabla = tablas[int(opcion_tabla)-1]
         conexion = Conexión(nombre_tabla=nombre_tabla)
-        columna_x = input('Ingrese el nombre de la primera columa: ')
+        columnas = conexion.obtener_nombres_columnas()
+        print("Columnas disponibles:")
+        for i, columna in enumerate(columnas):
+            print(f"{i+1}. {columna}")
+        columna_x = input('Ingrese el nombre de la primera columna: ')
         columna_y = input('Ingrese el nombre de la segunda columna: ')
         conexion.crear_grafico_regresion(columna_x, columna_y)
 

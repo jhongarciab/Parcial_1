@@ -38,7 +38,7 @@ class Conexión:
                     values = [f"'{i}'" for i in row.values.tolist()]
                     cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df.columns]), ', '.join(values)))
                               
-        print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
+        print(f"Las tablas '{', '.join(self.nombre_tabla)}' han sido creadas y los datos han sido insertados.")
 
     def combinar_tablas(self):
         """
@@ -58,15 +58,15 @@ class Conexión:
         en el DataFrame df_combinado.
         """
         with CursorDelPool() as cursor:
-            nombre_tabla = self.nombre_tabla
-            columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df_combinado.columns]
-            cursor.execute(SentenciasSQL._TABLA.format(nombre_tabla, ', '.join(columnas)))
+            for nombre_tabla in self.nombre_tabla:
+                columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df_combinado.columns]
+                cursor.execute(SentenciasSQL._TABLA.format(nombre_tabla, ', '.join(columnas)))
+                
+                for _, row in df_combinado.iterrows():
+                    values = [f"'{i}'" for i in row.values.tolist()]
+                    cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df_combinado.columns]), ', '.join(values)))
             
-            for _, row in df_combinado.iterrows():
-                values = [f"'{i}'" for i in row.values.tolist()]
-                cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df_combinado.columns]), ', '.join(values)))
-        
-        print(f"La tabla '{self.nombre_tabla}' ha sido creada y los datos han sido insertados.")
+        print(f"Las tablas '{', '.join(self.nombre_tabla)}' han sido creadas y los datos han sido insertados.")
 
     def crear_grafico_regresion(self, columna_x, columna_y, *args, **kwargs):
         """
@@ -90,6 +90,15 @@ class Conexión:
             cursor.execute(SentenciasSQL._LISTAR_TABLAS)
             tablas = [tabla[0] for tabla in cursor.fetchall()]
         return tablas
+
+    def obtener_nombres_columnas(self):
+        """
+        Retorna una lista con los nombres de las columnas de la tabla actual en la base de datos.
+        """
+        with CursorDelPool() as cursor:
+            cursor.execute(SentenciasSQL._LISTAR_COLUMNAS.format(self.nombre_tabla))
+            columnas = [columna[0] for columna in cursor.fetchall()]
+        return columnas
 
 class FuncionMatematica():
     """
