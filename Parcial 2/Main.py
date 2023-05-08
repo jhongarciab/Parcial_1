@@ -35,8 +35,8 @@ class Conexión:
                 columnas = [f'"{i.lower()}" VARCHAR(255)' for i in df.columns]
                 cursor.execute(SentenciasSQL._TABLA.format(nombre_tabla, ', '.join(columnas)))
                 for _, row in df.iterrows():
-                    values = [f"'{i}'" for i in row.values.tolist()]
-                    cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df.columns]), ', '.join(values)))
+                    valores = [f"'{i}'" for i in row.values.tolist()]
+                    cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df.columns]), ', '.join(valores)))
                               
         print(f"Las tablas '{', '.join(self.nombre_tabla)}' han sido creadas y los datos han sido insertados.")
 
@@ -45,8 +45,8 @@ class Conexión:
         Combina los datos de los archivos CSV especificados en la instancia de la clase Conexión en un solo DataFrame.
         """
         dfs = []
-        for archivo in self.archivos:
-            df = pd.read_csv(archivo)
+        for i in self.archivos:
+            df = pd.read_csv(i)
             dfs.append(df)
         df_combinado = pd.concat(dfs, axis=0, join='inner')
         df_combinado = df_combinado.drop_duplicates(subset=df_combinado.columns[:3])
@@ -63,8 +63,8 @@ class Conexión:
                 cursor.execute(SentenciasSQL._TABLA.format(nombre_tabla, ', '.join(columnas)))
                 
                 for _, row in df_combinado.iterrows():
-                    values = [f"'{i}'" for i in row.values.tolist()]
-                    cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df_combinado.columns]), ', '.join(values)))
+                    valores = [f"'{i}'" for i in row.values.tolist()]
+                    cursor.execute(SentenciasSQL._INSERTAR.format(nombre_tabla, ', '.join([f'{i.lower()}' for i in df_combinado.columns]), ', '.join(valores)))
             
         print(f"Las tablas '{', '.join(self.nombre_tabla)}' han sido creadas y los datos han sido insertados.")
 
@@ -105,14 +105,14 @@ class FuncionMatematica():
     Clase que permite encontrar los cortes de una función matemática y graficarla.
     """
     def encontrar_cortes_x(self, f):
-        roots = fsolve(f, [1])
-        return roots
+        raices = fsolve(f, [1])
+        return raices
     
     def graficar_funcion_y_cortes(self, f):
         x = np.linspace(-10, 10, 1000)
         y = f(x)
         plt.plot(x, y)
-        roots = self.encontrar_cortes_x(f)
-        plt.scatter(roots, np.zeros_like(roots))
+        raices = self.encontrar_cortes_x(f)
+        plt.scatter(raices, np.zeros_like(raices))
         plt.grid()
         plt.show()
