@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Tareas</h1>
+<h1>Tareas Pendientes</h1>
+
+<ul>
+    {% for tarea in task %}
+    <li>
+        <a href="{% url 'task_detail' tarea.id %}">
+            {% if tarea.important %}
+            <strong>{{tarea.title}}</strong>
+            {% else %}
+                {{tarea.title}}
+            {% endif %}
+           <p>{{tarea.description}}</p>
+           <p>{{tarea.datecompleted|date:'M j Y:i'}}</p>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

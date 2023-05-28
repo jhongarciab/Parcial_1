@@ -13,10 +13,16 @@
             <li>
                 <a href="/">Home</a>
             </li>
-            <li>
-                <a href="/task">Tareas</a>
-            </li>
             {% if user.is_authenticated %}
+            <li>
+                <a href="/task">Tareas Pendientes</a>
+            </li>
+            <li>
+                <a href="/task_completed">Tareas Completadas</a>
+            </li>
+            <li>
+                <a href="/task/create/">Crear Tarea</a>
+            </li>            
             <li>
                 <a href="/logout">Log Out</a>
             </li>
