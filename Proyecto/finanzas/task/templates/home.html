@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main class="container py-5">
-    <section class="card card-body">
-        <h1 class="display-1 text-center">Organizador de Tareas</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae nisi voluptate quos architecto dolor! Nesciunt et deserunt libero perferendis dicta veritatis nemo, quam consequatur in deleniti tempora odit. Maiores quis, facere magni autem assumenda quisquam a explicabo dolorem ducimus. Iusto, veniam sunt? Sequi atque, dignissimos voluptates eaque, sit molestias laboriosam architecto tempora vel perferendis sapiente aliquid expedita animi amet molestiae magni, officia harum nesciunt quas ipsam in. Laborum minus error magni itaque quasi voluptates neque sequi earum. Debitis commodi nulla perspiciatis voluptate nesciunt, labore ipsum recusandae ipsam assumenda, explicabo aliquam maiores maxime expedita voluptates eaque sint asperiores optio adipisci modi.</p>
-    </section>
+
+<main class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="display-1">Organizador de Tareas</h1>
+            <p class="lead">Organiza tus tareas de manera eficiente y mantén un seguimiento de tus actividades diarias. Nuestra aplicación te permite crear, actualizar, completar y eliminar tareas de manera sencilla. Ya no te preocupes por olvidar tus pendientes, ¡nuestro organizador de tareas te tiene cubierto!</p>
+            {% if user.is_authenticated %}
+            {% else %}
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg mt-4">Comienza ahora</a>
+            {% endif %}
+        </div>
+    </div>
 </main>
+
 {% endblock %}
