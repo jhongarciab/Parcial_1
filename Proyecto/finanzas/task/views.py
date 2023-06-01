@@ -63,7 +63,7 @@ def task(request):
 @login_required 
 def task_completed(request):
     task = Task.objects.filter(user=request.user, datecompleted__isnull=False)
-    return render(request, 'task.html', {
+    return render(request, 'completed_task.html', {
         'task': task
     })
 
