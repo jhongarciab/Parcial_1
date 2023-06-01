@@ -11,3 +11,6 @@ sobre el uso de clases y funciones para definir un método de solución de siste
 
 2. [Parcial 2](https://github.com/jhongarciab/Parciales/tree/master/Parcial%202)
 sobre bases de datos, importar, exportar y procesar archivos csv, uso de funciones y clases para el manejo de datos, uso de librerías como pandas, numpy, matplotlib, entre otras.
+
+3. [Proyecto](https://github.com/jhongarciab/Parciales/tree/master/Proyecto)
+sobre el uso de la framework Django en la implementación de una página sobre tareas, como el uso de html, css y bootstrap´.
